@@ -1,0 +1,17 @@
+name: Containerized CI
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout mycode
+        uses: actions/checkout@v2
+      - name: Build myimage
+        run: docker build -t cpp-sandbox .
+      - name: Launch container
+        run: docker run cpp-sandbox cpplint *.cpp *.h
